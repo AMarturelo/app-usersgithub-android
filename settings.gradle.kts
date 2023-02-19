@@ -5,19 +5,22 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
         maven {
-            url = "https://amarturelo.jfrog.io/artifactory/libs-release-local/"
+            url = uri("https://amarturelo.jfrog.io/artifactory/libs-snapshot-local/")
             credentials {
-                username "amartur"
-                password "Om3g4123*"
+                username = "amartur"
+                password = "Om3g4123*"
             }
         }
     }
 }
-rootProject.name = "app-usersgithub-android"
-include ':app'
+
+include(":app")
+
+apply(from = "./buildSrc/localModules.gradle.kts")

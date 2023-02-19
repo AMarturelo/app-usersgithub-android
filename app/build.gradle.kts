@@ -103,6 +103,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 
+    LocalModules.setupBuildGradle(this, rootProject)
+
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
         kotlinOptions {
             freeCompilerArgs.plus("-Xjvm-default=all-compatibility")
