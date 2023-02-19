@@ -13,16 +13,15 @@ object LocalModules {
         val localModules = modules.filterValues { it }.keys
         val excludedClosure = excludedClosure(localModules)
 
-        val isPipeline = isPipeline()
-        println("isPipeline build: $isPipeline")
+        val isCICD = isCICD()
+        println("isPipeline build: $isCICD")
 
         modules.forEach { (module, isIncluded) ->
-            if (isIncluded && !isPipeline) {
+            if (isIncluded && !isCICD) {
                 val project = dependencyHandler.project(mapOf("path" to ":$module"))
                 dependencyHandler.add("implementation", project)
             } else {
                 val implementation = getImplementation(module)
-                println("logger: $implementation")
                 dependencyHandler.add("implementation", implementation, excludedClosure)
             }
         }
@@ -87,7 +86,7 @@ object LocalModules {
     ) {
         resolutionStrategy.force(forcedDependencies)
 
-        if (isPipeline()) return
+        if (isCICD()) return
 
         val modules = rootProject.extra.get("modules") as Map<String, Boolean>
         modules.forEach { (moduleName, isIncluded) ->
@@ -119,6 +118,6 @@ object LocalModules {
         }
     }
 
-    fun isPipeline() = System.getenv("IS_CICD")?.isNotEmpty() ?: false
+    fun isCICD() = System.getenv("IS_CICD")?.isNotEmpty() ?: false
 
 }

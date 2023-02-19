@@ -1,5 +1,5 @@
 val modules: Map<String, Boolean> = hashMapOf(
-    "core" to false,
+    "core" to true,
 )
 
 settings.extra.set("modules", modules)
