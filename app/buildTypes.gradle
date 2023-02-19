@@ -1,0 +1,11 @@
+android {
+    defaultConfig {
+        buildConfigField "String", "HOST", "\"https://api.github.com\""
+    }
+    buildTypes {
+        debug {
+        }
+        release {
+        }
+    }
+}
