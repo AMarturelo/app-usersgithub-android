@@ -1,5 +1,6 @@
 val modules: Map<String, Boolean> = hashMapOf(
-    "core" to true,
+    "core" to false,
+    "followers" to false,
 )
 
 settings.extra.set("modules", modules)
@@ -15,7 +16,7 @@ apply {
 class LocalModulesPlugin : Plugin<Settings> {
 
     override fun apply(settings: Settings) {
-        if (isPipeline()) {
+        if (isCICD()) {
             return
         }
         val modules = settings.extra.get("modules") as Map<String, Boolean>
@@ -34,8 +35,8 @@ class LocalModulesPlugin : Plugin<Settings> {
         }
     }
 
-    private fun isPipeline(): Boolean {
-        return System.getenv("JENKINS_URL")?.isNotEmpty() ?: false
+    private fun isCICD(): Boolean {
+        return System.getenv("IS_CICD")?.isNotEmpty() ?: false
     }
 
     private fun getLocalModuleByModuleName(moduleName: String): LocalModule? {
@@ -89,4 +90,5 @@ enum class LocalModule(
     val branch: String = "develop",
 ) {
     CORE("core", "usersgithub-android-core"),
+    FOLLOWERS("followers", "usersgithub-android-followers"),
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/UsersFragment">
+
+    <fragment
+        android:id="@+id/UsersFragment"
+        android:name="com.amarturelo.usersgithub.presentation.users.UsersFragment"
+        android:label="@string/users_fragment_label"
+        tools:layout="@layout/fragment_users">
+        <action
+            android:id="@+id/action_UsersFragment_to_followersFragment"
+            app:destination="@id/followersFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/followersFragment"
+        android:name="com.amarturelo.usersgithub.followers.presentation.followers.FollowersFragment"
+        android:label="FollowersFragment" >
+        <argument
+            android:name="username"
+            app:argType="string" />
+    </fragment>
+</navigation>

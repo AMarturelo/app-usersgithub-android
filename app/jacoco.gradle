@@ -1,0 +1,123 @@
+apply plugin: 'jacoco'
+
+jacoco {
+    toolVersion = VersionApp.jacocoVersion
+}
+
+android {
+    buildTypes {
+        debug {
+            testCoverageEnabled false
+        }
+    }
+    testOptions {
+        unitTests.all {
+            jacoco {
+                includeNoLocationClasses = true
+                excludes = ['jdk.internal.*']
+            }
+        }
+    }
+
+    def fileFilter = [
+            '**/*$ViewInjector*.*',
+            '**/*_MembersInjector.*',
+            '**/*_Factory.*',
+            '**/*$ViewBinder*.*',
+            '**/*_ViewBinding*.*',
+            '**/R.class',
+            '**/App.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            '**/model/*.*',
+            '**/vo/*',
+            '**/adapter/*',
+            '**/observer/*',
+            '**/commons/*',
+            '**/common/*',
+            '**/ingresarclave/*',
+            '**/view/*',
+            '**/extension/*',
+            '**/ext/*',
+            '**/exception/*',
+            '**/analytics/*.*',
+            '**/entity/*.*',
+            '**/response/*.*',
+            '**/request/*.*',
+            '**/*R2*.*',
+            '**/*Constants*.*',
+            '**/*Constants$*.*',
+            '**/*Navigator.*',
+            '**/*Dialog.*',
+            '**/*TextWatcher*',
+            '**/*TextWatcher*.*',
+            '**/*Activity*.*',
+            '**/*_Factory*.*',
+            '**/core/*.*',
+            '**/*Fragment*.*',
+
+            // data binding
+            'android/databinding/**/*.class',
+            '**/android/databinding/*Binding.class',
+            '**/android/databinding/*',
+            '**/androidx/databinding/*',
+            '**/BR.*',
+            '**/DataBindingTriggerClass.class',
+            '**/DataBinderMapperImpl.class',
+            '**/InnerLayoutIdLookup.class',
+            '**/InnerBrLookup.class',
+            '**/callback/*.*',
+            '**/hilt_aggregated_deps/*.*',
+            '**/*DataBinder*.*',
+            '**/*DaggerApp*.*',
+            '**/*Hilt_App*.*',
+            '**/*HiltModules*.*',
+            '**/*App_*.*',
+            '**/*App_*.*',
+            '**/*databinding/*.*',
+            '**/*dagger.hilt.internal.aggregatedroot.codegen/*.*',
+
+            //Data
+            '**/data/api/request/*',
+            '**/data/model/*',
+
+            //Domain
+            '**/domain/entity/*',
+
+            //Dependency Injector
+            '**/di/**/*.*',
+    ]
+
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/debug/classes", excludes: fileFilter)
+    def kotlinTree = fileTree(dir: "${buildDir}/tmp/kotlin-classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    task jacocoTestReport(type: JacocoReport, dependsOn: 'testDebugUnitTest', group: 'jacocoReport') {
+        sourceDirectories.from = files([mainSrc, "src/main/kotlin"])
+        classDirectories.from = files([debugTree, kotlinTree])
+        executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+    }
+
+    task jacocoTestCoverageVerification(type: JacocoCoverageVerification, dependsOn: 'jacocoTestReport', group: 'jacocoReport') {
+        sourceDirectories.from = files([mainSrc, "src/main/kotlin"])
+        classDirectories.from = files([debugTree, kotlinTree])
+        executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+
+        violationRules {
+            setFailOnViolation(true)
+            rule {
+                limit {
+                    minimum = 0.99
+                }
+            }
+        }
+    }
+
+    task jacocoTestCoverageViewResult(type: Exec, dependsOn: 'jacocoTestReport', group: 'jacocoReport') {
+        executable "sh"
+        args "-c", "open '${buildDir}/reports/jacoco/jacocoTestReport/html/index.html'"
+    }
+}

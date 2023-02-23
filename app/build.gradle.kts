@@ -3,8 +3,11 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("androidx.navigation.safeargs.kotlin")
+    id("dagger.hilt.android.plugin")
 }
 apply(from = "buildTypes.gradle")
+apply(from = "jacoco.gradle")
 
 kapt {
     correctErrorTypes = true
@@ -41,73 +44,93 @@ android {
         jvmTarget = "1.8"
         kotlinOptions.freeCompilerArgs += "-Xjvm-default=enable"
     }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/proguard/androidx-annotations.pro")
+        resources.excludes.add("META-INF/androidx.exifinterface_exifinterface.version")
+        resources.excludes.add("META-INF/*.kotlin_module")
+        resources.pickFirsts.add("lib/armeabi-v7a/libtool-checker.so")
+        resources.pickFirsts.add("lib/arm64-v8a/libtool-checker.so")
+        resources.pickFirsts.add("lib/x86/libtool-checker.so")
+        resources.pickFirsts.add("lib/x86_64/libtool-checker.so")
+        pickFirst("lib/armeabi-v7a/libRSSupport.so")
+        pickFirst("lib/arm64-v8a/libRSSupport.so")
+        pickFirst("lib/x86_64/libRSSupport.so")
+        pickFirst("lib/x86/libRSSupport.so")
+        pickFirst("lib/arm64-v8a/librsjni.so")
+        pickFirst("lib/x86/librsjni.so")
+        pickFirst("lib/x86_64/librsjni.so")
+        pickFirst("lib/armeabi-v7a/librsjni.so")
+        pickFirst("lib/x86_64/librsjni_androidx.so")
+        pickFirst("lib/armeabi-v7a/librsjni_androidx.so")
+        pickFirst("lib/x86/librsjni_androidx.so")
+        pickFirst("lib/arm64-v8a/librsjni_androidx.so")
+    }
 }
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar", "*.aar"))))
 
-    implementation("androidx.appcompat:appcompat:1.4.1")
-    implementation("com.google.android.material:material:1.5.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.3")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${VersionApp.kotlinVersion}")
+    /* Google-Android libraries */
+    implementation(ApplicationDependencies.xAppCompat)
+    implementation(ApplicationDependencies.xDesign)
+    implementation(ApplicationDependencies.xConstraintLayout)
 
+    implementation(ApplicationDependencies.gson)
+    implementation(ApplicationDependencies.okhttp)
+    implementation(ApplicationDependencies.retrofit)
+    implementation(ApplicationDependencies.retrofitGson)
+    implementation(ApplicationDependencies.okhttpLoggingInterceptor)
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
+    implementation(ApplicationDependencies.timber)
 
-    //Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:${VersionApp.navComponentVersion}")
-    implementation("androidx.navigation:navigation-ui-ktx:${VersionApp.navComponentVersion}")
+    // hilt
+    implementation(ApplicationDependencies.hiltAndroid)
+    kapt(ApplicationDependencies.hiltAndroidCompiler)
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
-    // Test
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:4.3.1")
-    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
-    testImplementation("com.squareup.retrofit2:retrofit-mock:2.9.0")
-    testImplementation("com.squareup.assertj:assertj-android:1.2.0")
+    // test
+    testImplementation(UnitTestingDependencies.junit)
+    testImplementation(UnitTestingDependencies.mockito)
+    testImplementation(UnitTestingDependencies.mockWebServer)
     testImplementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2")
-    testImplementation("androidx.arch.core:core-testing:2.1.0")
+    testImplementation(UnitTestingDependencies.xCoreTesting)
+    testImplementation(UnitTestingDependencies.mockito)
     androidTestImplementation("androidx.test:runner:1.4.0")
     testImplementation("io.mockk:mockk:1.12.2")
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-    implementation("junit:junit:4.13.2")
+    implementation(UnitTestingDependencies.junit)
+
+    implementation(ApplicationDependencies.lifecycleViewmodel)
+    implementation(ApplicationDependencies.lifecycleRuntime)
+    implementation(ApplicationDependencies.lifecycleLivedata)
+
+    implementation(ApplicationDependencies.kotlinStdLib)
+
+    implementation(ApplicationDependencies.xNavComponentCommonKtx)
+    implementation(ApplicationDependencies.xNavComponentFragmentKtx)
+    implementation(ApplicationDependencies.xNavComponentUiKtx)
+
+    implementation(ApplicationDependencies.epoxy)
+    kapt(ApplicationDependencies.epoxyProcessor)
+
+
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation(ApplicationDependencies.coroutinesCore)
+    implementation(ApplicationDependencies.coroutinesAndroid)
 
     //Logger
-    implementation("com.jakewharton.timber:timber:5.0.1")
-
-    // Dagger
-    implementation("com.google.dagger:dagger:2.40.5")
-    implementation("com.google.dagger:dagger-android:2.40.5")
-    implementation("com.google.dagger:dagger-android-support:2.40.5")
-    kapt("com.google.dagger:dagger-compiler:2.40.5")
-    kapt("com.google.dagger:dagger-android-processor:2.40.5")
+    implementation(ApplicationDependencies.timber)
 
     //Glide
-    implementation("com.github.bumptech.glide:glide:4.13.2")
-    kapt("com.github.bumptech.glide:compiler:4.13.2")
+    implementation(ApplicationDependencies.glide)
+    kapt(ApplicationDependencies.glideCompiler)
 
-    //epoxy
-    implementation("com.airbnb.android:epoxy:4.1.0")
-    kapt("com.airbnb.android:epoxy-processor:4.1.0")
+    //Modules
+    implementation(ApplicationModules.ugCore)
+    implementation(ApplicationModules.ugFollowers)
 
-    //okHttp
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-
-    LocalModules.setupBuildGradle(this, rootProject)
-
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile::class).configureEach {
-        kotlinOptions {
-            freeCompilerArgs.plus("-Xjvm-default=all-compatibility")
-        }
-    }
+    //LocalModules.setupBuildGradle(this, rootProject)
 }
