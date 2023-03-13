@@ -32,7 +32,7 @@ class GetUsersUseCaseTest {
     @Test
     fun `given valid params when run then verify result`() = runTest {
         //given
-        val fakeResult = FakeValuesEntity.users()
+        val fakeResult = FakeValuesEntity.followers()
         coEvery { userRepository.users() } returns Either.Right(fakeResult)
 
         //when

@@ -11,5 +11,3 @@ dependencyResolutionManagement {
 }
 
 include(":app")
-
-//apply(from = "./buildSrc/localModules.gradle.kts")

@@ -4,7 +4,7 @@ import com.amarturelo.usersgithub.domain.entity.UserEntity
 
 
 object FakeValuesEntity {
-    fun user(): UserEntity {
+    fun follower(): UserEntity {
         return UserEntity(
             "Fake",
             -1,
@@ -12,7 +12,7 @@ object FakeValuesEntity {
         )
     }
 
-    fun users(): List<UserEntity> {
-        return (0..10).map { user() }
+    fun followers(): List<UserEntity> {
+        return (0..10).map { follower() }
     }
 }

@@ -85,7 +85,7 @@ class UsersViewModelTest : BaseViewModelTest() {
 
         //when
         viewModel.handleGetUsersUseCaseResult(
-            Either.Right(FakeValuesEntity.users())
+            Either.Right(FakeValuesEntity.followers())
         )
 
         //then

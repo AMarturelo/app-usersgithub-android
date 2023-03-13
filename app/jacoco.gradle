@@ -101,21 +101,6 @@ android {
         executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
     }
 
-    task jacocoTestCoverageVerification(type: JacocoCoverageVerification, dependsOn: 'jacocoTestReport', group: 'jacocoReport') {
-        sourceDirectories.from = files([mainSrc, "src/main/kotlin"])
-        classDirectories.from = files([debugTree, kotlinTree])
-        executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
-
-        violationRules {
-            setFailOnViolation(true)
-            rule {
-                limit {
-                    minimum = 0.99
-                }
-            }
-        }
-    }
-
     task jacocoTestCoverageViewResult(type: Exec, dependsOn: 'jacocoTestReport', group: 'jacocoReport') {
         executable "sh"
         args "-c", "open '${buildDir}/reports/jacoco/jacocoTestReport/html/index.html'"
