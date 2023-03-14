@@ -114,23 +114,22 @@ dependencies {
     implementation(ApplicationDependencies.epoxy)
     kapt(ApplicationDependencies.epoxyProcessor)
 
-
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     // Coroutines
     implementation(ApplicationDependencies.coroutinesCore)
     implementation(ApplicationDependencies.coroutinesAndroid)
 
-    //Logger
+    // Logger
     implementation(ApplicationDependencies.timber)
 
-    //Glide
+    // Glide
     implementation(ApplicationDependencies.glide)
     kapt(ApplicationDependencies.glideCompiler)
 
-    //Modules
+    // Modules
     implementation(ModulesDependencies.ugCore)
     implementation(ModulesDependencies.ugFollowers)
 
-    //LocalModules.setupBuildGradle(this, rootProject)
+    // LocalModules.setupBuildGradle(this, rootProject)
 }

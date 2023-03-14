@@ -6,8 +6,7 @@ import com.amarturelo.usersgithub.presentation.users.vo.UserListItemVO
 
 class UserController(
     private val itemClickedListener: (UserListItemVO) -> Unit = {},
-) :
-    TypedEpoxyController<List<UserListItemVO>>() {
+) : TypedEpoxyController<List<UserListItemVO>>() {
 
     override fun buildModels(employees: List<UserListItemVO>) {
         for (item in employees) {

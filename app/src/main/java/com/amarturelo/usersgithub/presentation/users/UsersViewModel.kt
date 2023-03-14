@@ -20,9 +20,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class UsersViewModel @Inject constructor(
-    private val getUsersUseCase: GetUsersUseCase,
-) : ViewModel() {
+class UsersViewModel @Inject constructor(private val getUsersUseCase: GetUsersUseCase) :
+    ViewModel() {
 
     private val _goToDetails: SingleLiveEvent<UserListItemVO> = SingleLiveEvent()
     val goToDetails: LiveData<UserListItemVO> = _goToDetails

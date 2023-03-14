@@ -6,7 +6,6 @@ import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import java.util.*
 
 class StatefulLayout : FrameLayout {
     private val mStateViews: MutableMap<String, View?> =
@@ -23,14 +22,14 @@ class StatefulLayout : FrameLayout {
     constructor(context: Context?) : super(context!!) {}
     constructor(context: Context?, attrs: AttributeSet?) : super(
         context!!,
-        attrs
+        attrs,
     ) {
     }
 
     constructor(
         context: Context?,
         attrs: AttributeSet?,
-        defStyleAttr: Int
+        defStyleAttr: Int,
     ) : super(context!!, attrs, defStyleAttr) {
     }
 
@@ -43,7 +42,7 @@ class StatefulLayout : FrameLayout {
         val bundle = Bundle()
         bundle.putParcelable(
             SAVED_INSTANCE_STATE,
-            super.onSaveInstanceState()
+            super.onSaveInstanceState(),
         )
         saveInstanceState(bundle)
         return bundle
@@ -74,7 +73,7 @@ class StatefulLayout : FrameLayout {
     var state: String?
         get() = mState
         set(state) {
-            state?:return
+            state ?: return
             if (mState != null && mState == state && !mDirtyFlag) return
             mState = state
             for (s in mStateViews.keys) {
@@ -119,7 +118,7 @@ class StatefulLayout : FrameLayout {
         removeView(contentView)
         setStateView(
             State.CONTENT,
-            contentView
+            contentView,
         )
         state = State.CONTENT
         mInitialized = true
@@ -153,7 +152,7 @@ class StatefulLayout : FrameLayout {
             var mStateController = StateController()
             fun withState(
                 state: String,
-                stateView: View
+                stateView: View,
             ): Builder {
                 mStateController.mStateMap[state] = stateView
                 return this

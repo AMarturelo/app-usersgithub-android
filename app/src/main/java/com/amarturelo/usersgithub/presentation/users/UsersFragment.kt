@@ -1,5 +1,6 @@
 package com.amarturelo.usersgithub.presentation.users
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -30,8 +31,9 @@ class UsersFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentUsersBinding.inflate(inflater, container, false)
         return binding.root
@@ -70,21 +72,22 @@ class UsersFragment : Fragment() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun setupStatefulLayout() {
         binding.slUsers.setStateView(
             ERROR,
             LayoutInflater.from(requireContext()).inflate(
                 R.layout.layout_users_state_error,
-                null
-            )
+                null,
+            ),
         )
 
         binding.slUsers.setStateView(
             LOADING,
             LayoutInflater.from(requireContext()).inflate(
                 R.layout.layout_users_state_loading,
-                null
-            )
+                null,
+            ),
         )
     }
 
@@ -92,9 +95,7 @@ class UsersFragment : Fragment() {
         item ?: return
 
         findNavController().navigate(
-            UsersFragmentDirections.actionUsersFragmentToFollowersFragment(
-                item.login
-            ),
+            UsersFragmentDirections.actionUsersFragmentToFollowersFragment(item.login),
         )
     }
 

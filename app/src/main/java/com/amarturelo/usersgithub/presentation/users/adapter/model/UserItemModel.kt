@@ -8,11 +8,11 @@ import com.airbnb.epoxy.EpoxyHolder
 import com.airbnb.epoxy.EpoxyModelClass
 import com.airbnb.epoxy.EpoxyModelWithHolder
 import com.amarturelo.usersgithub.R
+import com.amarturelo.usersgithub.ext.dp
+import com.amarturelo.usersgithub.presentation.users.vo.UserListItemVO
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.amarturelo.usersgithub.ext.dp
-import com.amarturelo.usersgithub.presentation.users.vo.UserListItemVO
 
 @EpoxyModelClass
 abstract class UserItemModel : EpoxyModelWithHolder<UserItemModel.Holder>() {
@@ -50,6 +50,5 @@ abstract class UserItemModel : EpoxyModelWithHolder<UserItemModel.Holder>() {
             tvFullNameUser = itemView.findViewById(R.id.tvUserFullName)
             tvPeopleDescription = itemView.findViewById(R.id.tvUserDescription)
         }
-
     }
 }

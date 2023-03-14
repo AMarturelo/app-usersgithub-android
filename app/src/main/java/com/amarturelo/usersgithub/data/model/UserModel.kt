@@ -1,7 +1,7 @@
 package com.amarturelo.usersgithub.data.model
 
-import com.google.gson.annotations.SerializedName
 import com.amarturelo.usersgithub.domain.entity.UserEntity
+import com.google.gson.annotations.SerializedName
 
 data class UserModel(
     @SerializedName("avatar_url")
@@ -39,7 +39,7 @@ data class UserModel(
     @SerializedName("type")
     val type: String = "",
     @SerializedName("url")
-    val url: String = ""
+    val url: String = "",
 )
 
 fun UserModel.toEntity(): UserEntity {

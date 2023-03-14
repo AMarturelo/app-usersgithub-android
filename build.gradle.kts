@@ -3,6 +3,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven {
+            setUrl("https://plugins.gradle.org/m2/")
+        }
     }
 
     dependencies {
@@ -11,6 +14,13 @@ buildscript {
         classpath(ClasspathDependencies.navComponentSafeVarargs)
         classpath(ClasspathDependencies.hiltPlugin)
         classpath(ClasspathDependencies.jacocoPlugin)
+        classpath("org.jlleitschuh.gradle:ktlint-gradle:9.2.1")
+    }
+}
+
+allprojects {
+    apply {
+        plugin("org.jlleitschuh.gradle.ktlint")
     }
 }
 
