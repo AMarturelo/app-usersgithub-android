@@ -130,6 +130,4 @@ dependencies {
     // Modules
     implementation(ModulesDependencies.ugCore)
     implementation(ModulesDependencies.ugFollowers)
-
-    // LocalModules.setupBuildGradle(this, rootProject)
 }

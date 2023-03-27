@@ -6,14 +6,15 @@ import com.amarturelo.usersgithub.core.domain.usecase.UseCase
 import com.amarturelo.usersgithub.domain.repository.UserRepository
 import com.amarturelo.usersgithub.domain.usecase.GetUsersUseCase
 import com.amarturelo.usersgithub.exception.Failure
-import io.mockk.*
+import com.amarturelo.usersgithub.utils.FakeValuesEntity
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import com.amarturelo.usersgithub.utils.FakeValuesEntity
 
 class GetUsersUseCaseTest {
 
@@ -31,27 +32,26 @@ class GetUsersUseCaseTest {
 
     @Test
     fun `given valid params when run then verify result`() = runTest {
-        //given
+        // given
         val fakeResult = FakeValuesEntity.followers()
         coEvery { userRepository.users() } returns Either.Right(fakeResult)
 
-        //when
+        // when
         val result = useCase.run(UseCase.None)
 
-        //then
+        // then
         Assert.assertEquals(fakeResult.size, result.getOrElse(listOf()).size)
     }
 
     @Test
     fun `given invalid params when run then verify result`() = runTest {
-        //given
+        // given
         coEvery { userRepository.users() } returns Either.Left(Failure.NetworkConnection)
 
-        //when
+        // when
         val result = useCase.run(UseCase.None)
 
-        //then
+        // then
         Assert.assertTrue(result.isLeft)
     }
-
 }

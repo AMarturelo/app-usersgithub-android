@@ -3,9 +3,23 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
         maven {
-            isAllowInsecureProtocol = true
-            url = uri("http://localhost:8081/repository/maven-snapshots/")
+            name = "GitHub Core"
+            url = uri("https://maven.pkg.github.com/amarturelo/usersgithub-android-core")
+            credentials {
+                username = System.getenv("GITHUB_USER")
+                password = System.getenv("GITHUB_ACCESS_TOKEN")
+            }
+        }
+
+        maven {
+            name = "GitHub Followers"
+            url = uri("https://maven.pkg.github.com/amarturelo/usersgithub-android-followers")
+            credentials {
+                username = System.getenv("GITHUB_USER")
+                password = System.getenv("GITHUB_ACCESS_TOKEN")
+            }
         }
     }
 }

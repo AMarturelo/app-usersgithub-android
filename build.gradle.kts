@@ -14,13 +14,6 @@ buildscript {
         classpath(ClasspathDependencies.navComponentSafeVarargs)
         classpath(ClasspathDependencies.hiltPlugin)
         classpath(ClasspathDependencies.jacocoPlugin)
-        classpath("org.jlleitschuh.gradle:ktlint-gradle:9.2.1")
-    }
-}
-
-allprojects {
-    apply {
-        plugin("org.jlleitschuh.gradle.ktlint")
     }
 }
 
